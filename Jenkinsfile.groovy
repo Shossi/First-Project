@@ -1,18 +1,25 @@
+def userInput
 pipeline {
     agent any
 
     stages {
+        stage('input'){
+            steps{
+                script{
+                    userInput = input message: 'please provide your input', ok: 'confirm', parameters: [choice(name: '', choices: ['opt1', 'opt2'], description: '')]
+                }
+            }
+        }
         stage('Hello') {
             steps {
                 echo 'Hello World'
             }
         }
-        stage("check pwd") {
+        stage("print input") {
             steps {
-                sh "pwd"
+                println("Input was : " + userInput)
             }
         }
 
     }
 }
-
