@@ -11,9 +11,9 @@ def send(key, host, city):
 
     response = requests.request("GET", url, headers=headers, params=querystring)
     response = response.json()
-    #   print(response)
+# print(response)
     city1 = response['city']['name']
     day = response['list'][0]['temp']['day']
     night = response['list'][0]['temp']['night']
-    weather = response['list'][0]['weather'][0]['description']
+    weather = response['list'][0]['weather'][0]['main']
     print("weather in", city1, "today:\nday temperature:", day, "\nnight temperature:", night, '\nweather:', weather)

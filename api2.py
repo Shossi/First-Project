@@ -5,6 +5,7 @@ import send
 # import requests
 # global key, host
 
+
 #
 # def send(key, host, city):
 #     url = "https://community-open-weather-map.p.rapidapi.com/forecast/daily"  # open weather url endpoint
