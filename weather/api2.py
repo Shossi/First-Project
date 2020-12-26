@@ -1,7 +1,9 @@
 import json
 # import ./load.py
 import argparse
-import send
+from weather import send
+
+
 # import requests
 # global key, host
 
@@ -26,7 +28,7 @@ import send
 
 
 def load_config():
-    with open('./config.json') as json_file:
+    with open('config.json') as json_file:
         configs = json.load(json_file)
         key = configs['config']['key']
         host = configs['config']['host']

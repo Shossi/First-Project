@@ -1,22 +1,25 @@
+package jenkins
+
 def userInput
 pipeline {
-    agent any
-
+    agent {
+        label 'docker_node'
+    }
     stages {
         stage('build docker image'){
             steps{
-                dir('API') {
+                dir() {
                     script {
-                        sh "sudo docker build -t weatherapi . "
+                        sh "sudo docker build -t weatherapi /weather/. "
                     }
                 }
             }
         }
-        stage('test docker image') {
+        stage('weather.test docker image') {
             steps {
-                dir('API/test'){
+                dir('weather.test'){
                     script{
-                        sh "sh ./test.sh"
+                        sh "sh ./weather/test/test.sh"
                     }
                 }
 
