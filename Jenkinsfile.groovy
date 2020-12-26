@@ -3,16 +3,23 @@ pipeline {
     agent any
 
     stages {
-        stage('input'){
+        stage('build docker image'){
             steps{
-                script{
-                    userInput = input message: 'please provide your input', ok: 'confirm', parameters: [choice(name: '', choices: ['opt1', 'opt2'], description: '')]
+                dir('API') {
+                    script {
+                        sh "sudo docker build -t weatherapi . "
+                    }
                 }
             }
         }
-        stage('Hello') {
+        stage('test docker image') {
             steps {
-                echo 'Hello World'
+                dir('API/test'){
+                    script{
+                        sh "sh ./test.sh"
+                    }
+                }
+
             }
         }
         stage("print input") {
