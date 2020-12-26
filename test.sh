@@ -9,6 +9,10 @@ check_result() {
     exit 1
   fi
 }
-city="israel"
-sudo docker run weatherapi -c city | grep | weather
-check_result city
+
+list = ['israel','london','new york']
+
+for city in list;do
+  sudo docker run weatherapi -c city | grep weather
+  check_result $city
+done
