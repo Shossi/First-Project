@@ -14,5 +14,5 @@ list = ['israel','london','new york']
 
 for city in list;do
   sudo docker run weatherapi -c city | grep weather
-  check_result $city
+  check_result city
 done
