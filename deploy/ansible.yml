@@ -1,7 +1,7 @@
 ---
 - name: int servo deplo
   hosts: KoJoey
-  become: true
+  become: yes
 
   tasks:
     - name: check that docker is installed
@@ -16,4 +16,4 @@
         state: started
 
     - name: Start weatherapi container
-      shell: "docker run joey/weatherapi -c 'israel' "
+      shell: "docker run joeyhd/weatherapi:{{tag}} -c 'israel' "

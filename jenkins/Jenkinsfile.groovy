@@ -16,7 +16,7 @@ pipeline {
                         latestVersion = _latestVersion.trim()
                         println("Latest Version seen is ${latestVersion}")
                         println("Latest commit seen is ${lastCommit}")
-                        sh "sudo docker build -t weatherapi:${latestVersion}-${lastCommit} . "
+                        sh "sudo docker build -t joeyhd/weatherapi:${latestVersion}-${lastCommit} . "
                     }
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
                 dir('weather/test'){
                     script{
                         try {
-                            sh "sh ./test.sh weatherapi:${latestVersion}-${lastCommit}"
+                            sh "sh ./test.sh joeyhd/weatherapi:${latestVersion}-${lastCommit}"
                         } catch (err) {
                             println('error thrown on test file execution')
                             currentBuild.abort = 'ABORTED'
@@ -39,7 +39,7 @@ pipeline {
         }
         stage("upload image to hub") {
             steps {
-                sh "sudo docker push joey/weatherapi:${latestVersion}-${lastCommit}"
+                sh "sudo docker push joeyhd/weatherapi:${latestVersion}-${lastCommit}"
             }
         }
         stage('Deployment') {
