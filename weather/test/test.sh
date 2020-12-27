@@ -1,4 +1,6 @@
 #!/bin/bash
+TAG=$1
+
 check_result() {
   RESULT=$?
   MESSAGE=$1
@@ -13,6 +15,8 @@ check_result() {
 list=['israel','london','new york']
 
 for city in list;do
-  sudo docker run weatherapi -c city | grep weather
+  sudo docker run $TAG -c city | grep weather
   check_result city
 done
+
+exit 0
