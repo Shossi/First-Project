@@ -16,4 +16,4 @@
         state: started
 
     - name: Start weatherapi container
-      shell: "docker run joey/weatherapi:{{ tag }} -c 'israel' "
+      shell: "docker run joey/weatherapi -c 'israel' "

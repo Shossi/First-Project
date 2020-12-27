@@ -1,4 +1,3 @@
-package jenkins
 def lastCommit
 def latestVersion
 pipeline {
