@@ -1,7 +1,7 @@
 import json
 # import ./load.py
 import argparse
-from weather import send
+import send
 
 
 # import requests
