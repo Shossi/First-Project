@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  Homework:
-    build: ./Homework
+  homework:
+    build: .
     volumes:
       - ./homework:/usr/src/app
     ports:
