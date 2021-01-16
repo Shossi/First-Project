@@ -20,11 +20,11 @@ def main():
     key = load_config()[0]
     host = load_config()[1]
     response = send.send(key, host, country)
-    print(response)
+    # print(response)
     city1 = response['city']['name']
     day = response['list'][0]['temp']['day']
     night = response['list'][0]['temp']['night']
     weather = response['list'][0]['weather'][0]['main']
     answer = ("weather in", city1, "today:\nday temperature:", day, "\nnight temperature:", night, '\nweather:', weather)
-    print (answer)
+    print (answer, "TESTING")
     return answer
