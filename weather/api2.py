@@ -27,4 +27,4 @@ def main():
     weather = response['list'][0]['weather'][0]['main']
     print("weather in", city1, "today:\nday temperature:", day, "\nnight temperature:", night, '\nweather:', weather)
     # print (answer)
-    return
+    return "a"
