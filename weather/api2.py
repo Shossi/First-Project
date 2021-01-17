@@ -25,6 +25,6 @@ def main():
     day = response['list'][0]['temp']['day']
     night = response['list'][0]['temp']['night']
     weather = response['list'][0]['weather'][0]['main']
-    answer = ("weather in", city1, "today<br/>day temperature:", day, "<br/>night temperature:", night, '<br/>weather:', weather)
-    print (answer)
+    # answer = ("weather in", city1, "today<br/>day temperature:", day, "<br/>night temperature:", night, '<br/>weather:', weather)
+    # print (answer)
     return 'City is: {} day temp: {} night temp: {} weather: {}'.format(city1, day, night, weather)
