@@ -1,5 +1,28 @@
----
-- amazon.aws.ec2:
-    instance_tags:
-      Name: docker_node
-    state: running
+- name: Start sandbox instances
+  hosts: localhost
+  gather_facts: false
+#  vars:
+#    instance_ids:
+#      - 'i-xxxxxx'
+#      - 'i-xxxxxx'
+#      - 'i-xxxxxx'
+#    region: us-east-1
+  tasks:
+#    - name: Start the sandbox instances
+#      amazon.aws.ec2:
+#        instance_ids: '{{ instance_ids }}'
+#        region: '{{ region }}'
+#        state: running
+#        wait: True
+#        vpc_subnet_id: subnet-29e63245
+#        assign_public_ip: yes
+#  roles:
+#    - do_neat_stuff
+#    - do_more_neat_stuff
+##
+# Start stopped instances specified by tag
+#
+      amazon.aws.ec2:
+        instance_tags:
+            Name: docker_node
+        state: running
