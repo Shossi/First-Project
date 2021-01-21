@@ -16,4 +16,4 @@
         state: started
 
     - name: Start weatherapi container
-      shell: "docker run -d --restart always -p 5000:5000 joeyhd/weatherapi:{{tag}} "
+      shell: "docker run -d --restart always -p 80:5000 joeyhd/weatherapi:{{tag}} "
