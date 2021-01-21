@@ -1,6 +1,5 @@
 ---
-- name: start instance
-  amazon.aws.ec2:
+- amazon.aws.ec2:
     instance_tags:
       Name: ExtraPower
     state: running
