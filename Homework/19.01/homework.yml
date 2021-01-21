@@ -1,5 +1,5 @@
 - name: Launch instance
-    ec2:
+    local_action: ec2
       key_name: intjoey2020
       group: Sec_Group
       instance_type: t2.micro
