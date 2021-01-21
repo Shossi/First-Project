@@ -1,11 +1,22 @@
-- name: Launch instance
-    local_action: ec2
-      key_name: intjoey2020
-      group: Sec_Group
-      instance_type: t2.micro
-      image: ami-0dd9f0e7df0f0a138
-      wait: true
-      region: us-east-2
-      vpc_subnet_id: subnet-a27733ee
-      assign_public_ip: yes
-    register: ec2
+---
+- name: Create a sandbox instance
+  hosts: localhost
+  gather_facts: False
+  vars:
+    keypair: intjoey2020
+    instance_type: t2.micro
+    security_group: Sec_Group
+    image: i-02cb2631bbb3418a4
+    region: us-east-2
+  tasks:
+    - name: Launch instance
+      amazon.aws.ec2:
+        key_name: "{{ keypair }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: true
+        region: "{{ region }}"
+        vpc_subnet_id: subnet-29e63245
+        assign_public_ip: yes
+      register: ec2
