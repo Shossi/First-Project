@@ -1,5 +1,11 @@
----
-- amazon.aws.ec2:
-    instance_tags:
-      Name: ExtraPower
-    state: running
+- name: Launch instance
+    ec2:
+      key_name: intjoey2020
+      group: Sec_Group
+      instance_type: t2.micro
+      image: ami-0dd9f0e7df0f0a138
+      wait: true
+      region: us-east-2
+      vpc_subnet_id: subnet-a27733ee
+      assign_public_ip: yes
+    register: ec2
