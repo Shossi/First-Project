@@ -30,7 +30,7 @@
 
     - name: Pull an image
       become: true
-      community.general.docker_image:
+      docker_image:
         name: joeyhd/weatherapi:v0.1
         source: pull
 

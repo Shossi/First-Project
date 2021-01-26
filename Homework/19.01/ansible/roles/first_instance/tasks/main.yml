@@ -34,14 +34,14 @@
         dest: /home/ubuntu/ansible
 
     - name: Log into DockerHub
-      community.general.docker_login:
+      docker_login:
         username: "joeyhd"
         password: "zpqmzpqma"
       become: true
 
     - name: Build an image and push it to a private repo
       become: true
-      community.general.docker_image:
+      docker_image:
         build:
           path: /home/ubuntu/ansible/weather
         name: joeyhd/weatherapi:v0.1
