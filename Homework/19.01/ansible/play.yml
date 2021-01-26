@@ -27,7 +27,7 @@
         vpc_subnet_id: "{{subnet}}"
         assign_public_ip: yes
         instance_tags:
-          name: first instance
+          Name: first instance
       register: first
 
     - name: Launching second instance
