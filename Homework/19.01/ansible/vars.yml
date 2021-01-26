@@ -1,0 +1,11 @@
+---
+{
+          "keypair": "intjoey2020",
+          "instance_type": "t2.micro",
+          "security_group": "Sec_Group",
+          "image": "ami-0a91cd140a1fc148a",
+          "region": "us-east-2",
+          "subnet": "subnet-a27733ee",
+          "ec2_access_key": "AKIAXWJMJ7PVDJ757ZEY",
+          "ec2_secret_key": "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"
+        }
