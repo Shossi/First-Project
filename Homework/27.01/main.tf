@@ -57,7 +57,7 @@ resource "aws_route_table" "joey_rt" {
 resource "aws_subnet" "joey_subnet" {
     vpc_id = aws_vpc.new_vpc.id
     cidr_block = "10.122.122.0/24"
-    availability_zone = "eu-central-1a" 
+    availability_zone = "us-east-1a"
     
     tags = {
       Name = "my_subnet-01"
@@ -134,12 +134,17 @@ output "server_public_ip" {
   value = aws_eip.web_eip.public_ip
 }
 
+resource "aws_key_pair" "joey-key" {
+  key_name   = "terraform-key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 email@example.com"
+}
+
 # 10- Create a new ubuntu instance
 resource "aws_instance" "web_server_instance" {
-    ami = "ami-0502e817a62226e03"
+    ami = "ami-0885b1f6bd170450c"
     instance_type = "t2.micro"
-    availability_zone = "eu-central-1a"
-    key_name = "nader"
+    availability_zone = "us-east-1a"
+    key_name = "terraform-key"
     
     network_interface {
       device_index = 0
@@ -148,12 +153,14 @@ resource "aws_instance" "web_server_instance" {
     user_data = <<-EOF
 
     sudo apt update 
-    sudo apt install apache2
-    
+    sudo apt install docker.io
+    mkdir /home/ubuntu/terraform-prod
+    git clone https://github.com/yossizxc/api /home/ubuntu/terraform-prod
+    cd /home/ubuntu/terraform-prod
 
     EOF
 
   tags = {
-    "Name" = "Nader Web Server"
+    "Name" = "joey_terraform"
   }
 }
