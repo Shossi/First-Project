@@ -16,16 +16,19 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region = "eu-central-1"  # Frankfurt
-  access_key = "AKIAXWJMJ7PVHQ6FTYET"
-  secret_key = "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"
+  region = "us-east-1"
+  access_key = "###"
+  secret_key = "###"
 }
 
 
 # 1- Create a VPC
 # 10.122.0.0 255.255.0.0 ===> 65,536 = 2^16 
 resource "aws_vpc" "new_vpc" {
-  cidr_block = "10.122.0.0/16"
+  cidr_block = "10.0.0.0/16"
+  tags ={
+    Name = "first_vpc"
+  }
 }
 
 # 2- Create an internet gateway
@@ -56,7 +59,7 @@ resource "aws_route_table" "joey_rt" {
 # 4- Create network Subnet
 resource "aws_subnet" "joey_subnet" {
     vpc_id = aws_vpc.new_vpc.id
-    cidr_block = "10.122.122.0/24"
+    cidr_block = "10.0.0.0/24"
     availability_zone = "us-east-1a"
     
     tags = {
@@ -109,34 +112,47 @@ resource "aws_security_group" "allow_web" {
   } 
 
   tags = {
-    "Name" = "DevOps-2020"
+    "Name" = "joey-2020"
   }
 
 }
 
-# 7- Create new network interface
+# 7- Create new network interface1
 resource "aws_network_interface" "web-server-nic" {
   subnet_id =  aws_subnet.joey_subnet.id
-  private_ip = "10.122.122.122"
+  private_ips = ["10.0.0.10"]
   security_groups = [ aws_security_group.allow_web.id ]
 }
 
 # 8- Create new Elastic IP
 resource "aws_eip" "web_eip" {
-    vpc = true
-    network_interface = aws_network_interface.web-server-nic.id
-    # associate_with_private_ip = "10.122.122.122"
-    depends_on = [ aws_internet_gateway.gw ]
+  vpc = true
+  network_interface = aws_network_interface.web-server-nic.id
+  associate_with_private_ip = "10.0.0.10"
+}
+
+# 7- Create new network interface2
+resource "aws_network_interface" "web-server-nic2" {
+  subnet_id =  aws_subnet.joey_subnet.id
+  private_ips = ["10.0.0.20"]
+  security_groups = [ aws_security_group.allow_web.id ]
+}
+# 8- Create new Elastic IP
+resource "aws_eip" "web_eip2" {
+  vpc = true
+  network_interface = aws_network_interface.web-server-nic2.id
+  associate_with_private_ip = "10.0.0.20"
 }
 
 # 9- Printout the server public ip
-output "server_public_ip" {
+output "instance_ips" {
   value = aws_eip.web_eip.public_ip
 }
 
-resource "aws_key_pair" "joey-key" {
-  key_name   = "terraform-key"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 email@example.com"
+resource "time_sleep" "wait_3_mins" {
+  depends_on = [aws_instance.web_server_instance]
+
+  create_duration = "180s"
 }
 
 # 10- Create a new ubuntu instance
@@ -144,23 +160,50 @@ resource "aws_instance" "web_server_instance" {
     ami = "ami-0885b1f6bd170450c"
     instance_type = "t2.micro"
     availability_zone = "us-east-1a"
-    key_name = "terraform-key"
-    
+    key_name = "terraform-joey"
     network_interface {
       device_index = 0
       network_interface_id = aws_network_interface.web-server-nic.id
     }
     user_data = <<-EOF
+      #!/bin/bash
+      sudo apt update -y
+      sudo apt install docker.io -y
+      mkdir /home/ubuntu/terraform-project
+      sudo git clone https://github.com/yossizxc/api /home/ubuntu/terraform-project/
+      sudo systemctl start docker
+      cd /home/ubuntu/terraform-project/weather
+      sudo docker build -t joeyhd/weatherapi:v0.56 .
+      docker login --username joeyhd --password zpqmzpqma
+      sudo docker push joeyhd/weatherapi:v0.56
+      EOF
+    tags = {
+     "Name" = "joey_terraform"
 
-    sudo apt update 
-    sudo apt install docker.io
-    mkdir /home/ubuntu/terraform-prod
-    git clone https://github.com/yossizxc/api /home/ubuntu/terraform-prod
-    cd /home/ubuntu/terraform-prod
-
-    EOF
-
-  tags = {
-    "Name" = "joey_terraform"
   }
 }
+
+resource "aws_instance" "web_server_instance2" {
+  ami = "ami-0885b1f6bd170450c"
+  instance_type = "t2.micro"
+  availability_zone = "us-east-1a"
+  key_name = "terraform-joey"
+  depends_on = [time_sleep.wait_3_mins]
+  network_interface {
+    device_index = 0
+    network_interface_id = aws_network_interface.web-server-nic2.id
+  }
+  user_data = <<-EOF
+      #!/bin/bash
+      sudo apt update -y
+      sudo apt install docker.io -y
+      sudo systemctl start docker
+      sudo docker pull joeyhd/weatherapi:v0.56
+      sudo docker run -d --restart always -p 5000:5000 joeyhd/weatherapi:v0.56
+      EOF
+
+  tags = {
+    "Name" = "joey_terraform2"
+  }
+}
+
