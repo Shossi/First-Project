@@ -10,8 +10,8 @@ terraform {
 # Configure the AWS Provider
 provider "aws" {
   region     = var.region
-  access_key = "AKIAJHFSE5MEXAJXG6PA"
-  secret_key = "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"
+  access_key = "###"
+  secret_key = "###"
 }
 
 module "role_creation" {
