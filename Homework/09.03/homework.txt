@@ -1,0 +1,6 @@
+Please create a Terraform code that creates:
+
+1- S3 Bucket
+2- IAM role that has read write access to the created S3 bucket.
+3- An Instance and assign to the created role
+4- Test you configuration by uploading files to the S3 from the instance.
