@@ -1,0 +1,18 @@
+AWS Homework
+
+1- Please create an Instances with simple flask application that returns the server hostname (see the socket python library)
+
+
+2- Create an image from the instance and launch a new instance from that image
+
+3- make sure that the python is running on both servers and accessible from the internet
+
+4- create an ALB that directs the users traffic to the python app on both instances.
+
+confirm that the load is balanced on both instances by watching the hostname swapping each time you refresh the page.
+
+solution:
+created an ubuntu instance, added the python requirements(flask+ flask_app)
+created an image from the instance
+created an alb and associated both instances to the alb through the target group,
+checked that both instance's hostname show on the alb and git it works just fine.
