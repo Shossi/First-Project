@@ -5,6 +5,7 @@ import send
 
 app = Flask(__name__)
 
+
 def load_config():
     with open('config.json') as json_file:
         configs = json.load(json_file)
@@ -12,8 +13,8 @@ def load_config():
         host = configs['config']['host']
         return key, host
 
-@app.route('/', methods=['POST'])
 
+@app.route('/', methods=['POST'])
 def main():
     data = request.get_json() or {}
     country = data['country']
