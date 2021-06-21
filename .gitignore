@@ -5,3 +5,5 @@ Homework/27.01/.terraform/
 Homework/09.02/.terraform/
 *terraform.tfstate.backup
 *terraform.tfstate
+config.json
+*.pem

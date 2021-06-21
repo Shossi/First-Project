@@ -15,16 +15,16 @@ def load_config():
 
 @app.route('/')
 def main():
-    country = request.args.get("country", "")
-    if country:
-        weather = city_data(country)
+    city = request.args.get("city", "")
+    if city:
+        weather = city_data(city)
     else:
         weather = ""
     return (
             """<form action="" method="get">
             <center>
                     <b><h2> Welcome to my Weather Application </b></h2>
-                    <b>Insert city name: </b><input type="text" name="country" value=""" + country + """>
+                    <b>Insert city name: </b><input type="text" name="city" value=""" + city + """>
                 <input type="submit" value="Check">
             </center>
             </form>"""
