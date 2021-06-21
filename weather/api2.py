@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import request
+from flask import Flask, render_template, request
 import json
 import send
 
@@ -14,18 +13,37 @@ def load_config():
         return key, host
 
 
-@app.route('/', methods=['POST'])
+@app.route('/')
 def main():
-    data = request.get_json() or {}
-    country = data['country']
+    country = request.args.get("country", "")
+    if country:
+        weather = city_data(country)
+    else:
+        weather = ""
+    return (
+            """<form action="" method="get">
+            <center>
+                    <b><h2> Welcome to my Weather Application </b></h2>
+                    <b>Insert city name: </b><input type="text" name="country" value=""" + country + """>
+                <input type="submit" value="Check">
+            </center>
+            </form>"""
+            + weather
+    )
+
+
+def city_data(country):
     key = load_config()[0]
     host = load_config()[1]
     response = send.send(key, host, country)
-    # print(response)
     city1 = response['city']['name']
     day = response['list'][0]['temp']['day']
     night = response['list'][0]['temp']['night']
     weather = response['list'][0]['weather'][0]['main']
-    # answer = ("weather in", city1, "today<br/>day temperature:", day, "<br/>night temperature:", night, '<br/>weather:', weather)
-    # print (answer)
-    return 'City is: {}. day temp: {}. night temp: {}. weather: {}.'.format(city1, day, night, weather)
+    return '''<center>
+        <b><p style="margin-right:7.25cm">City:     {}.</b></p>
+        <b><p style="margin-right:6.45cm">Day temp: {}.</b></p>
+        <b><p style="margin-right:6cm">Night temp:  {}.</b></p>
+        <b><p style="margin-right:6.5cm">Weather:   {}.</b></p>
+        </center>'''.format(city1, day, night, weather)
+
