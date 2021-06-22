@@ -1,1 +1,1 @@
-This is Git repo for my Weather application and my Devops Course and homework 
+This is a Git repo for my Weather-Application and Devops Course
