@@ -12,9 +12,8 @@ def homepage():
 <!DOCTYPE html>
 <html>
 <body>
-    <h1>Welcome to my Flask Temperature Convertor Application</h1>
     <h2>(enter a value in Celsius, and it will be converted to Fahrenheit)</h2>
-    <form action="tempConversion" method="POST">
+    <form action="tempConversion" method="GET">
         <input type="text" name="tempInCelsius">
         <input type="submit" value="Convert">
     </form>
@@ -31,8 +30,7 @@ def my_form_post():
 
         fahrenheit = celsius * 9.0 / 5 + 32
         return str(celsius) + " Celsius equals to " + str(fahrenheit) + " fahrenheit. " + \
-               "Thank you very much for you choosing my application, have an awesome day!"
-
+               "Thank you very much for you choosing my application, have an awesome"
     except:
         return "That is not a number, you can go back and reenter the value to be a number or you can exit now, " \
                "Thank you very much for you choosing my application, have an awesome day! "

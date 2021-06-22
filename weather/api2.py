@@ -46,4 +46,3 @@ def city_data(country):
         <b><p style="margin-right:6cm">Night temp:  {}.</b></p>
         <b><p style="margin-right:6.5cm">Weather:   {}.</b></p>
         </center>'''.format(city1, day, night, weather)
-
