@@ -3,7 +3,6 @@ TAG=$1
 
 check_result () {
   RESULT=$?
-  MESSAGE=$1
     if [ $RESULT==0 ]; then
         echo [SUCCESS]
     else
@@ -14,11 +13,9 @@ check_result () {
 
 containerName=$(echo $TAG | cut -d '-' -f2)
 sudo docker rm -f $(sudo docker ps -aq)
-sudo docker run -d -p 80:5000 --name "$containerName" "$TAG"
+sudo docker run -d -p 80:8080 --name "$containerName" "$TAG"
 sleep 5
-for country in israel; do
-  curl -X POST --header "Content-Type: application/json" -d "{\"country\":\"$country\"}" http://localhost:80
-  check_result $country
-done
+curl http://localhost:80
+check_result
 
 exit 0

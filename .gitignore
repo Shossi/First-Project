@@ -1,10 +1,8 @@
-# ignore an entire directory
-Homework/03.02/main/.terraform/
-# ingnoring terraform plugins
-Homework/27.01/.terraform/
-Homework/09.02/.terraform/
-*terraform.tfstate.backup
-*terraform.tfstate
 config.json
 *.pem
-Homework/02.03
+/Terraform/Jenkins_Manager/*.terraform
+/Terraform/worker_instances/*.terraform
+/Terraform/Jenkins_manger/.terraform/
+/Terraform/worker_instances/.terraform/
+*terraform.tfstate
+*terraform.tfstate.backup
